@@ -25,6 +25,53 @@ import org.maestro.agent.base.AbstractHandler
 class UserCommand1Handler extends AbstractHandler {
     private static final Logger logger = LoggerFactory.getLogger(UserCommand1Handler.class);
 
+    static void convertQuiverResults(Integer senOrRec) throws IOException {
+        String fileName
+        BufferedReader br
+        String path = "/maestro/agent/logs/last/"
+        String sender = "sender-transfers.csv.xz"
+        String receiver = "receiver-transfers.csv.xz"
+
+        if (senOrRec == 1) {
+            br = new BufferedReader(new FileReader("${path}${sender}"))
+            fileName = "sender.dat"
+        } else {
+            br = new BufferedReader(new FileReader("${path}${receiver}"))
+            fileName = "receiver.dat"
+        }
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))
+        PrintWriter pw = new PrintWriter(bw)
+        String line
+        String[] previousLine = ["0","-1"]
+        long lastTimestampMessageCount = 0
+
+        while ((line = br.readLine()) != null) {
+            String[] currentLine = line.split(",")
+
+            // first line of the csv file
+            if (previousLine[1] == "-1") {
+                previousLine = currentLine
+                continue
+            }
+
+            if (currentLine[1].toLong() != previousLine[1].toLong()) {
+                pw.printf("0,%l,%s", previousLine[0].toLong() - lastTimestampMessageCount, previousLine[1])
+                lastTimestampMessageCount = previousLine[0].toLong()
+            }
+
+            previousLine = currentLine
+        }
+
+        // last line of the csv file
+        pw.printf("0,%l,%s", previousLine[0].toLong() - lastTimestampMessageCount, previousLine[1])
+
+        pw.close()
+        br.close()
+
+    }
+
+
     @Override
     Object handle() {
         String logDir = getTestLogDir().getPath()
@@ -50,6 +97,9 @@ class UserCommand1Handler extends AbstractHandler {
             }
 
             createTestSuccessSymlinks();
+
+            convertQuiverResults(1)
+            convertQuiverResults(0)
 
             this.getClient().notifySuccess(getCurrentTest(), "Quiver test ran successfully")
             logger.info("Quiver test ran successfully")
