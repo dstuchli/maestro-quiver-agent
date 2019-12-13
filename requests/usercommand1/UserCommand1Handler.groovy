@@ -55,23 +55,17 @@ class UserCommand1Handler extends AbstractHandler {
             if (super.executeOnShell(cloneConverterCommand) == 0) {
                 String untar = "tar -xvf quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz"
                 if (super.executeOnShell(untar) == 0) {
-                    String changeDir = "cd quiver-results-converter-1.0-SNAPSHOT/bin/"
-                    if (super.executeOnShell(changeDir) == 0) {
 
-                        super.executeOnShell("ls")
-                        String runScriptSender = "./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/sender-transfers.csv.xz /maestro/agent/logs/lastSuccessful/sender-summary.json"
-                        if (super.executeOnShell(runScriptSender) != 0) {
-                            logger.warn("Unable to convert sender files")
-                        }
-
-                        String runScriptReceiver = "./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/last/receiver-summary.json"
-                        if (super.executeOnShell(runScriptReceiver) != 0) {
-                            logger.warn("Unable to convert receiver files")
-                        }
-
-                    } else {
-                        logger.warn("Unable to change directory to converter directory")
+                    String runScriptSender = "cd quiver-results-converter-1.0-SNAPSHOT/bin/ & ./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/sender-transfers.csv.xz /maestro/agent/logs/lastSuccessful/sender-summary.json"
+                    if (super.executeOnShell(runScriptSender) != 0) {
+                        logger.warn("Unable to convert sender files")
                     }
+
+                    String runScriptReceiver = "cd quiver-results-converter-1.0-SNAPSHOT/bin/ & ./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/last/receiver-summary.json"
+                    if (super.executeOnShell(runScriptReceiver) != 0) {
+                        logger.warn("Unable to convert receiver files")
+                    }
+
                 } else {
                     logger.warn("Unable to extract the converter files")
                 }
