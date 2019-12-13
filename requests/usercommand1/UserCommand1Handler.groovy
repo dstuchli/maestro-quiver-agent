@@ -53,15 +53,15 @@ class UserCommand1Handler extends AbstractHandler {
 
             String cloneConverterCommand = "curl -L https://github.com/dstuchli/quiver-results-converter/releases/download/1.0/quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz --output quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz"
             if (super.executeOnShell(cloneConverterCommand) == 0) {
-                String untarAndChangeDir = "tar -xf quiver-results-converter.tar.gz; cd quiver-results-converter-1.0-SNAPSHOT/bin"
+                String untarAndChangeDir = "tar -xf quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz; cd quiver-results-converter-1.0-SNAPSHOT/bin"
                 if (super.executeOnShell(untarAndChangeDir) == 0) {
 
-                    String runScriptSender = "./quiver-results-converter.sh /maestro/agent/logs/lastSuccessful/sender-transfers.csv.xz /maestro/agent/logs/lastSuccessful/sender-summary.json"
+                    String runScriptSender = "./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/sender-transfers.csv.xz /maestro/agent/logs/lastSuccessful/sender-summary.json"
                     if (super.executeOnShell(runScriptSender) != 0) {
                         logger.warn("Unable to convert sender files")
                     }
 
-                    String runScriptReceiver = "./quiver-results-converter.sh /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/last/receiver-summary.json"
+                    String runScriptReceiver = "./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/last/receiver-summary.json"
                     if (super.executeOnShell(runScriptReceiver) != 0) {
                         logger.warn("Unable to convert receiver files")
                     }
