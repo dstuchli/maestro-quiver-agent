@@ -58,6 +58,7 @@ class UserCommand1Handler extends AbstractHandler {
                     String changeDir = "cd quiver-results-converter-1.0-SNAPSHOT/bin/"
                     if (super.executeOnShell(changeDir) == 0) {
 
+                        super.executeOnShell("ls")
                         String runScriptSender = "./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/sender-transfers.csv.xz /maestro/agent/logs/lastSuccessful/sender-summary.json"
                         if (super.executeOnShell(runScriptSender) != 0) {
                             logger.warn("Unable to convert sender files")
