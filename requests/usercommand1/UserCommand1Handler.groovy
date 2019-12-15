@@ -51,7 +51,7 @@ class UserCommand1Handler extends AbstractHandler {
 
             createTestSuccessSymlinks();
 
-            String cloneConverterCommand = "curl -L https://github.com/dstuchli/quiver-results-converter/releases/download/1.1/quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz --output quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz"
+            String cloneConverterCommand = "curl -L https://github.com/dstuchli/quiver-results-converter/releases/download/v1.1/quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz --output quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz"
             if (super.executeOnShell(cloneConverterCommand) == 0) {
                 String untar = "tar -xvf quiver-results-converter-1.0-SNAPSHOT-bin.tar.gz"
                 if (super.executeOnShell(untar) == 0) {
