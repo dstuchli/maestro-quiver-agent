@@ -61,7 +61,7 @@ class UserCommand1Handler extends AbstractHandler {
                         logger.warn("Unable to convert sender files")
                     }
 
-                    String runScriptReceiver = "cd quiver-results-converter-1.0-SNAPSHOT/bin/; ./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/last/receiver-summary.json"
+                    String runScriptReceiver = "cd quiver-results-converter-1.0-SNAPSHOT/bin/; ./quiver-results-converter.sh convert /maestro/agent/logs/lastSuccessful/receiver-transfers.csv.xz /maestro/agent/logs/lastSuccessful/receiver-summary.json"
                     if (super.executeOnShell(runScriptReceiver) != 0) {
                         logger.warn("Unable to convert receiver files")
                     }
